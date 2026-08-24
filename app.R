@@ -1,4 +1,4 @@
-library(shiny)
+#library(shiny)
 library(sf)
 library(terra)
 library(exactextractr)
@@ -14,7 +14,7 @@ library(shinyjs)
 
 # ── Data ─────────────────────────────────────────────────────────────────────
 
-setwd("~/GitHub/TribalStewardshipExplorer")
+#setwd("~/GitHub/TribalStewardshipExplorer")
 
 land_raster   <- rast("Land_All_Class.tif")
 lf_raster     <- rast("Landform_All_Class.tif")
@@ -30,7 +30,7 @@ LANDFORM_CLASSES <- levels(lf_raster)[[1]] %>%
 STREAM_CLASSES <- sort(unique(streams$SrvyHbt))
 WATER_CLASSES <- sort(unique(bodies$SrvyHbt))
 
-ebci <- st_read("EBCI_Trust_Lands.shp")
+ebci <- st_read("Boundary_EBCI.shp")
 ebci <- st_transform(ebci, 4326)
 aoi <- st_read("CLAE_AOI.shp")
 aoi <- st_transform(aoi, 4326)
@@ -143,7 +143,7 @@ ui <- fluidPage(
     .results-panel.visible { display: block; }
     .sidebar {
       position: absolute;
-      top: 10px;
+      bottom: 20px;
       left: 10px;
       z-index: 1000;
       background: white;
@@ -164,7 +164,7 @@ ui <- fluidPage(
       
       # Floating sidebar (top-left)
       div(class = "sidebar",
-          h4("Tribal Stewardship Explorer"),
+          h4("EBCI Co-Stewardship Explorer"),
           
           radioButtons("geom_source", "Input Method",
                        choices = c("Draw Polygon", "Upload Shapefile"),
@@ -198,7 +198,7 @@ ui <- fluidPage(
   
   # Learn More Button
   absolutePanel(
-    bottom = 30, left = 20, width = 220,
+    bottom = 40, right = -50, width = 220,
     style = "z-index: 1000;",
     actionButton("learn_more", "Learn More")
   ),
@@ -208,7 +208,7 @@ ui <- fluidPage(
     condition = "input.learn_more % 2 == 1",
     
     absolutePanel(
-      bottom = 70, left = 20, width = 320,
+      bottom = 80, right = -50, width = 320,
       style = "
         background-color: white;
         padding: 12px;
@@ -218,9 +218,9 @@ ui <- fluidPage(
       ",
       
       h4("About this tool"),
-      p("This interactive tool summarizes tribal objectives and habitat distributions for areas of interest for tribal stewardship involvement."),
+      p("The purpose of this tool is to summarize tribal objectives and habitat distributions for prospective areas the tribe may want to co-steward."),
       
-      p("Draw or upload an area of interest o understand how well it aligns with tribal objectives."),
+      p("Draw or upload an area of interest to understand how well it aligns with tribal objectives."),
       
       tags$hr(),
       
